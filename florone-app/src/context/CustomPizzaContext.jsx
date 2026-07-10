@@ -8,7 +8,7 @@ import {
   getToppingPrice,
 } from '../data/customPizzaData';
 
-const API_BASE = 'http://localhost:5000';
+import { API_BASE } from '../config/api';
 const STORAGE_KEY = 'floravan-custom-pizza-config-v4';
 
 const CustomPizzaContext = createContext(null);

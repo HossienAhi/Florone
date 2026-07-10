@@ -16,9 +16,9 @@ import {
   saveMenuToStorage,
 } from "../data/menuItemUtils";
 import { authHeaders } from "../utils/cashierAuth";
+import { menuItemsUrl as API_URL } from "../config/api";
 
 const MenuContext = createContext(null);
-const API_URL = "http://localhost:5000/menu-items";
 const MENU_QUERY_KEY = ["menu-items"];
 const POLL_MS = 30_000;
 

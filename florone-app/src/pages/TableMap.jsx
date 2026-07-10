@@ -7,7 +7,7 @@ import { TABLE_LAYOUT, CUSTOMER_COLORS, faNum } from "../data/tableLayout";
 import { parsePrice, formatToman } from "../data/price";
 import "./TableMap.css";
 
-const API_BASE = "http://localhost:5000";
+import { API_BASE } from "../config/api";
 const MIN_LOADING_MS = 2000;
 
 // Map the live /api/orders payload to a per-table status keyed by layout key.

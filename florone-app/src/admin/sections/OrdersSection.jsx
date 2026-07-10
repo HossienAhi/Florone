@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { faNum } from "../../data/tableLayout";
 import { formatToman, parsePrice } from "../../data/price";
 import { authHeaders } from "../../utils/cashierAuth";
+import { API_BASE } from "../../config/api";
 
 const STATUS_MAP = {
   pending: { label: "در انتظار تأیید", className: "status-pending" },
@@ -33,7 +34,7 @@ export default function OrdersSection() {
   const ordersQuery = useQuery({
     queryKey: ["admin-orders-list"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:5000/api/orders/list", {
+      const response = await fetch(`${API_BASE}/api/orders/list`, {
         headers: authHeaders(),
       });
       if (!response.ok) throw new Error("failed");

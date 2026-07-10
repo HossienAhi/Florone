@@ -14,7 +14,7 @@ import { DEFAULT_SECTION } from "../admin/adminConfig";
 import { authHeaders } from "../utils/cashierAuth";
 import notifSound from "../assets/sound/notif.mp3";
 
-const API_BASE = "http://localhost:5000";
+import { API_BASE } from "../config/api";
 const POLL_MS = 10_000;
 const ALARM_DURATION_MS = 3000; // loop the notification sound for ~3s per the spec
 

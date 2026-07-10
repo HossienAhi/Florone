@@ -12,7 +12,7 @@ import {
   setCashierToken,
 } from "../utils/cashierAuth";
 
-const API_BASE = "http://localhost:5000";
+import { API_BASE } from "../config/api";
 
 const CashierAuthContext = createContext(null);
 

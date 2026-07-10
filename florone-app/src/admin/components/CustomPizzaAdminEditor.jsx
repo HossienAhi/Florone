@@ -13,7 +13,7 @@ import { CUSTOM_PIZZA_CONFIG_STORAGE_KEY } from '../../context/CustomPizzaContex
 import CpToast from '../../components/customPizza/CpToast';
 import './CustomPizzaAdminEditor.css';
 
-const API_BASE = 'http://localhost:5000';
+import { API_BASE } from '../../config/api';
 
 function numInput(value) {
   return parsePrice(value);
