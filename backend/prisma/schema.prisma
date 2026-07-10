@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model MenuItem {
+  id           Int      @id @default(autoincrement())
+  name         String
+  nameEn       String?
+  price        Float
+  discount     Int      @default(0)
+  description  String?
+  image        String?
+  category     String?
+  available    Boolean  @default(true)
+  suggestion   Boolean  @default(false)
+  popular      Boolean  @default(false)
+  prepTime     Int      @default(20)
+  optionGroups String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  displayName  String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model RestaurantTable {
+  id        Int           @id @default(autoincrement())
+  code      String        @unique
+  label     String
+  status    TableStatus   @default(EMPTY)
+  orders    Order[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Order {
+  id             Int           @id @default(autoincrement())
+  tableId        Int
+  table          RestaurantTable @relation(fields: [tableId], references: [id])
+  status         OrderStatus   @default(NEW)
+  acknowledged   Boolean       @default(false)
+  acknowledgedAt DateTime?
+  totalPrice     Float
+  items          Json
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+enum TableStatus {
+  EMPTY
+  ACTIVE
+  CLEANING
+}
+
+enum OrderStatus {
+  NEW
+  PREPARING
+  DONE
+  CLOSED
+}
+
+model CustomPizzaSettings {
+  id                      String   @id @default("default")
+  basePriceMedium         Int      @default(550000)
+  basePriceFamily         Int      @default(780000)
+  familyToppingMultiplier Float    @default(1.3)
+  minToppings             Int      @default(3)
+  maxToppings             Int      @default(7)
+  updatedAt               DateTime @updatedAt
+}
+
+model CustomPizzaTopping {
+  id          String   @id
+  name        String
+  emoji       String   @default("")
+  groupKey    String
+  priceMedium Int
+  available   Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model IdempotencyRecord {
+  key          String   @id
+  statusCode   Int
+  responseBody String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}

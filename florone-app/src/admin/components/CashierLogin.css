@@ -1,0 +1,190 @@
+.cashier-login-root {
+  --login-black: #0a0908;
+  --login-orange: #eb5e28;
+  --login-cream: #fffcf2;
+  --login-gray: #151412;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 0%, #1a1512 0%, var(--login-black) 55%);
+  color: var(--login-cream);
+  font-family: "Vazirmatn", Tahoma, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.cashier-login-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.cashier-login-glow--1 {
+  width: 320px;
+  height: 320px;
+  top: -80px;
+  right: -60px;
+  background: rgba(235, 94, 40, 0.18);
+}
+
+.cashier-login-glow--2 {
+  width: 280px;
+  height: 280px;
+  bottom: -100px;
+  left: -80px;
+  background: rgba(133, 183, 235, 0.08);
+}
+
+.cashier-login-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  padding: 36px 32px 28px;
+  border-radius: 24px;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 252, 242, 0.06) 0%,
+    rgba(21, 20, 18, 0.92) 45%,
+    rgba(10, 9, 8, 0.98) 100%
+  );
+  border: 1px solid rgba(255, 252, 242, 0.1);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(235, 94, 40, 0.08) inset;
+  backdrop-filter: blur(12px);
+}
+
+.cashier-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.cashier-login-logo {
+  width: 48px;
+  height: 54px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 10px rgba(235, 94, 40, 0.35));
+}
+
+.cashier-login-eyebrow {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  color: var(--login-orange);
+  letter-spacing: 0.04em;
+}
+
+.cashier-login-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.cashier-login-sub {
+  margin: 0 0 24px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: rgba(255, 252, 242, 0.62);
+}
+
+.cashier-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cashier-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cashier-login-field span {
+  font-size: 0.85rem;
+  color: rgba(255, 252, 242, 0.75);
+}
+
+.cashier-login-field input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 252, 242, 0.12);
+  background: rgba(10, 9, 8, 0.65);
+  color: var(--login-cream);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cashier-login-field input::placeholder {
+  color: rgba(255, 252, 242, 0.35);
+}
+
+.cashier-login-field input:focus {
+  outline: none;
+  border-color: rgba(235, 94, 40, 0.55);
+  box-shadow: 0 0 0 3px rgba(235, 94, 40, 0.15);
+}
+
+.cashier-login-error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(185, 28, 28, 0.18);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+  font-size: 0.88rem;
+}
+
+.cashier-login-submit {
+  margin-top: 4px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eb5e28 0%, #d94e1a 100%);
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(235, 94, 40, 0.35);
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.cashier-login-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.cashier-login-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.cashier-login-foot {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255, 252, 242, 0.4);
+}
+
+.cashier-login-foot code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 252, 242, 0.06);
+  font-size: 0.76rem;
+}
+
+.cashier-login-loading {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: #0a0908;
+  color: rgba(255, 252, 242, 0.6);
+  font-family: "Vazirmatn", Tahoma, sans-serif;
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 620" width="100%" height="100%">
+  <!-- Restaurant floor plan background — extracted from RestaurantMap.jsx -->
+  <!-- Excludes table shapes; keeps: wall, zones, dividers, counter, entry label -->
+
+  <defs>
+    <!-- Light variant theme -->
+    <style>
+      @font-face {
+        font-family: 'Vazirmatn';
+        src: local('Vazirmatn');
+      }
+
+      .rm-wall {
+        fill: rgba(255, 252, 242, 0.55);
+        stroke: rgba(26, 26, 26, 0.12);
+        stroke-width: 1.5;
+      }
+      .rm-zone-top {
+        fill: rgba(255, 255, 255, 0.35);
+        stroke: rgba(26, 26, 26, 0.1);
+        stroke-width: 1.2;
+        stroke-dasharray: 6 7;
+        stroke-linejoin: round;
+      }
+      .rm-entry-line {
+        stroke: rgba(26, 26, 26, 0.18);
+        stroke-width: 1.2;
+        stroke-dasharray: 5 6;
+      }
+      .rm-entry-label {
+        fill: rgba(26, 26, 26, 0.35);
+        font-size: 10px;
+        font-weight: 600;
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+        letter-spacing: 0.04em;
+      }
+      .rm-divider {
+        stroke: rgba(26, 26, 26, 0.12);
+        stroke-width: 1.2;
+        stroke-dasharray: 6 8;
+      }
+      .rm-counter {
+        fill: rgba(216, 90, 48, 0.06);
+        stroke: rgba(216, 90, 48, 0.28);
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+      }
+      .rm-counter-label {
+        fill: rgba(180, 70, 30, 0.85);
+        font-size: 14px;
+        font-weight: 700;
+        font-family: 'Vazirmatn', Tahoma, sans-serif;
+      }
+    </style>
+  </defs>
+
+  <!-- Restaurant wall boundary -->
+  <rect x="8" y="8" width="384" height="604" rx="22" class="rm-wall"/>
+
+  <!-- Top zone (seating area) -->
+  <path d="M 18 14 L 356 14 L 334 130 L 40 130 Z" class="rm-zone-top"/>
+
+  <!-- Entry door marker -->
+  <line x1="358" y1="14" x2="358" y2="118" class="rm-entry-line"/>
+
+  <!-- Entry label -->
+  <text x="374" y="66"
+        text-anchor="middle"
+        transform="rotate(90 374 66)"
+        class="rm-entry-label">
+    input cafe
+  </text>
+
+  <!-- Divider: top zone / middle bar area -->
+  <line x1="14" y1="136" x2="386" y2="136" class="rm-divider"/>
+
+  <!-- Counter / bar area -->
+  <path d="M 192 148 H 334 V 172 H 304 V 372 H 192 Z" class="rm-counter"/>
+
+  <!-- Counter label -->
+  <text x="263" y="268"
+        text-anchor="middle"
+        class="rm-counter-label">
+    پیشخوان
+  </text>
+
+  <!-- Divider: middle bar area / main hall -->
+  <line x1="14" y1="382" x2="386" y2="382" class="rm-divider"/>
+
+</svg>

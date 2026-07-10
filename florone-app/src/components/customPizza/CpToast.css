@@ -1,0 +1,51 @@
+.cp-update-toast {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(20, 17, 15, 0.88);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(74, 222, 154, 0.35);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  color: #fffcf2;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  animation: cp-toast-slide 0.35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.cp-update-toast-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(74, 222, 154, 0.2);
+  color: #4ade9a;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+@keyframes cp-toast-slide {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-update-toast {
+    animation: none;
+  }
+}

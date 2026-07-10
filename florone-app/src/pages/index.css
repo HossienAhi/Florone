@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+
+/* اسکرول‌بار عمودی صفحه مخفی — نوار پیشرفت سفارشی جایگزین */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+/* اسکرول‌بار افقی داخل کانتینرها */
+::-webkit-scrollbar {
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(235, 94, 40, 0.35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(235, 94, 40, 0.55);
+}
+
+/* Typewriter */
+.typewriter-text {
+  width: 21ch;
+  max-width: 21ch;
+  overflow: hidden;
+  white-space: nowrap;
+  border-left: 3px solid #eb5e28;
+  margin-right: 0;
+  margin-left: auto;
+  animation:
+    typing 4s steps(21) infinite,
+    blink 0.8s step-end infinite;
+}
+@keyframes typing {
+  0%,  10% { width: 0; }
+  45%, 55% { width: 100%; }
+  90%,100% { width: 0; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}

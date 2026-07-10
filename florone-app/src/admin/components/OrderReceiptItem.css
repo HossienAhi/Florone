@@ -1,0 +1,265 @@
+.td-receipt-item {
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 252, 242, 0.08);
+}
+.td-receipt-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.td-receipt-item.is-custom-pizza {
+  background: linear-gradient(135deg, rgba(235, 94, 40, 0.08), rgba(235, 94, 40, 0.02));
+  border: 1px solid rgba(235, 94, 40, 0.22);
+  border-radius: 14px;
+  padding: 14px 14px 10px;
+  margin-bottom: 8px;
+}
+
+.td-receipt-item-main {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.td-receipt-item-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fffcf2;
+}
+
+.td-receipt-pizza-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.td-receipt-qty {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: rgba(255, 252, 242, 0.5);
+  min-width: 36px;
+  text-align: center;
+}
+
+.td-receipt-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #eb5e28;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.td-receipt-opts-preview {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: rgba(255, 252, 242, 0.45);
+  line-height: 1.6;
+}
+
+/* Kitchen drawer */
+.td-kitchen-drawer {
+  margin-top: 10px;
+}
+
+.td-kitchen-drawer-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 252, 242, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 252, 242, 0.04);
+  color: rgba(255, 252, 242, 0.85);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.td-kitchen-drawer-toggle:hover {
+  background: rgba(235, 94, 40, 0.1);
+  border-color: rgba(235, 94, 40, 0.35);
+}
+.td-kitchen-drawer-toggle.is-open {
+  border-color: rgba(235, 94, 40, 0.4);
+  background: rgba(235, 94, 40, 0.12);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.td-kitchen-chevron {
+  transition: transform 0.25s cubic-bezier(.22, 1, .36, 1);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+.td-kitchen-drawer-toggle.is-open .td-kitchen-chevron {
+  transform: rotate(180deg);
+}
+
+.td-kitchen-drawer-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s cubic-bezier(.22, 1, .36, 1), opacity 0.25s;
+  border: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+.td-kitchen-drawer-panel.is-open {
+  max-height: min(52dvh, 420px);
+  overflow-y: auto;
+  opacity: 1;
+  border-color: rgba(235, 94, 40, 0.3);
+  background: rgba(10, 9, 8, 0.6);
+  padding: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(235, 94, 40, 0.4) transparent;
+}
+
+.td-kitchen-ticket-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.td-kitchen-ticket-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fffcf2;
+}
+
+.td-kitchen-ticket-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f2743e, #eb5e28);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.td-kitchen-specs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+}
+.td-kitchen-specs dt {
+  margin: 0;
+  color: rgba(255, 252, 242, 0.5);
+  font-weight: 600;
+}
+.td-kitchen-specs dd {
+  margin: 0;
+  font-weight: 800;
+  color: #fffcf2;
+}
+
+.td-kitchen-toppings-title {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #eb5e28;
+}
+
+.td-kitchen-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.td-kitchen-group-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 252, 242, 0.5);
+  margin-bottom: 4px;
+}
+
+.td-kitchen-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.td-kitchen-group li {
+  padding: 7px 11px;
+  border-radius: 10px;
+  background: rgba(255, 252, 242, 0.05);
+  border: 1px solid rgba(255, 252, 242, 0.08);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.td-kitchen-empty-hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(255, 252, 242, 0.45);
+}
+
+.td-kitchen-toppings ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.td-kitchen-toppings li {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 252, 242, 0.05);
+  border: 1px solid rgba(255, 252, 242, 0.08);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.td-kitchen-opts-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.td-kitchen-opts-list li {
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(255, 252, 242, 0.08);
+}
+.td-kitchen-opt-group {
+  color: rgba(255, 252, 242, 0.45);
+  min-width: 72px;
+}
+
+.td-kitchen-copy-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(29, 158, 117, 0.18);
+  border: 1px solid rgba(29, 158, 117, 0.4);
+  color: #4ade9a;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.td-kitchen-copy-btn:hover {
+  background: #1d9e75;
+  color: #fff;
+}
