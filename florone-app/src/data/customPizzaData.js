@@ -115,28 +115,27 @@ function seedHash(str) {
 /** Visual density on the pizza disk */
 export const TOPPING_VISUAL_PROFILE = {
   default: {
-    pieceCount: 6,
-    minRadius: 12,
-    maxRadius: 38,
-    scaleMin: 0.78,
+    pieceCount: 14,
+    minRadius: 10,
+    maxRadius: 30,
+    edgeMargin: 13,
+    scaleMin: 0.82,
     scaleRange: 0.35,
     flyImgScale: 1,
   },
   fine: {
-    pieceCount: 20,
-    minRadius: 3,
-    maxRadius: 44,
-    scaleMin: 0.54,
-    scaleRange: 0.2,
-    flyImgScale: 0.84,
+    pieceCount: 40,
+    edgeMargin: 18,
+    scaleMin: 0.95,
+    scaleRange: 0.28,
+    flyImgScale: 1.35,
   },
   chicken: {
-    pieceCount: 26,
-    minRadius: 2,
-    maxRadius: 46,
-    scaleMin: 0.66,
-    scaleRange: 0.24,
-    flyImgScale: 0.96,
+    pieceCount: 44,
+    edgeMargin: 18,
+    scaleMin: 0.92,
+    scaleRange: 0.3,
+    flyImgScale: 1.3,
   },
 };
 
@@ -160,44 +159,132 @@ export function getToppingPieceCount(toppingId, overrideCount) {
   return getToppingVisualProfile(toppingId).pieceCount;
 }
 
-export function getToppingPositions(toppingId, count) {
-  const profile = getToppingVisualProfile(toppingId);
-  const pieceCount = count ?? profile.pieceCount;
-  const base = seedHash(toppingId);
-  const visualType = getToppingVisualType(toppingId);
-  const isSpread = visualType === 'fine' || visualType === 'chicken';
+function clampToPizzaShape(left, top, margin, shape = 'circle') {
+  if (shape === 'square') {
+    return {
+      left: Math.min(100 - margin, Math.max(margin, left)),
+      top: Math.min(100 - margin, Math.max(margin, top)),
+    };
+  }
+  const dx = left - 50;
+  const dy = top - 50;
+  const dist = Math.hypot(dx, dy);
+  const maxDist = 50 - margin;
+  if (dist <= maxDist) return { left, top };
+  const scale = maxDist / dist;
+  return { left: 50 + dx * scale, top: 50 + dy * scale };
+}
+
+function getSpreadSunflowerPositions(toppingId, pieceCount, margin, visualType) {
   const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+  const base = seedHash(toppingId);
+  const maxDist = 50 - margin - 2;
+  const minDist = 6;
+  const delayStep = visualType === 'chicken' ? 0.018 : 0.02;
   const positions = [];
 
   for (let i = 0; i < pieceCount; i++) {
     const h = seedHash(`${toppingId}-${i}`);
-    let left;
-    let top;
-
-    if (isSpread) {
-      const t = (i + 0.5) / pieceCount;
-      const angle = i * goldenAngle + (base % 97) * 0.02;
-      const radius = profile.minRadius + (profile.maxRadius - profile.minRadius) * Math.sqrt(t);
-      const jitterStrength = visualType === 'chicken' ? 0.48 : 0.32;
-      const jitterX = ((h % 19) - 9) * jitterStrength;
-      const jitterY = (((h >> 4) % 19) - 9) * (jitterStrength - 0.02);
-      left = 50 + Math.cos(angle) * radius + jitterX;
-      top = 50 + Math.sin(angle) * radius * 0.94 + jitterY;
-    } else {
-      const angle = ((base + h * 137) % 360) * (Math.PI / 180);
-      const radius = profile.minRadius + ((h >> 3) % (profile.maxRadius - profile.minRadius + 1));
-      left = 50 + Math.cos(angle) * radius;
-      top = 50 + Math.sin(angle) * radius;
-    }
+    const t = (i + 0.5) / pieceCount;
+    const angle = i * goldenAngle + (base % 32) * 0.028;
+    const radius = minDist + (maxDist - minDist) * t;
+    const jitterR = ((h % 7) - 3) * 0.3;
+    let left = 50 + Math.cos(angle) * (radius + jitterR);
+    let top = 50 + Math.sin(angle) * (radius + jitterR);
+    ({ left, top } = clampToPizzaShape(left, top, margin + 2, 'circle'));
 
     positions.push({
       left,
       top,
-      rotate: (h % 60) - 30,
-      delay: i * (isSpread ? (visualType === 'chicken' ? 0.018 : 0.022) : 0.04),
+      rotate: (h % 50) - 25,
+      delay: i * delayStep,
     });
   }
   return positions;
+}
+
+function getSpreadGridPositions(toppingId, pieceCount, margin, visualType) {
+  const cols = Math.ceil(Math.sqrt(pieceCount * 1.08));
+  const rows = Math.ceil(pieceCount / cols);
+  const innerW = 100 - 2 * margin;
+  const innerH = 100 - 2 * margin;
+  const cellW = innerW / cols;
+  const cellH = innerH / rows;
+  const delayStep = visualType === 'chicken' ? 0.018 : 0.02;
+  const positions = [];
+
+  for (let i = 0; i < pieceCount; i++) {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const h = seedHash(`${toppingId}-${i}`);
+    const jitterX = ((h % 9) - 4) * cellW * 0.16;
+    const jitterY = (((h >> 4) % 9) - 4) * cellH * 0.16;
+
+    let left = margin + cellW * (col + 0.5) + jitterX;
+    let top = margin + cellH * (row + 0.5) + jitterY;
+    ({ left, top } = clampToPizzaShape(left, top, margin + 2, 'square'));
+
+    positions.push({
+      left,
+      top,
+      rotate: (h % 50) - 25,
+      delay: i * delayStep,
+    });
+  }
+  return positions;
+}
+
+function getRingPositions(toppingId, pieceCount, profile, shape) {
+  const base = seedHash(toppingId);
+  const margin = profile.edgeMargin ?? 13;
+  const ringCount = Math.max(2, Math.round(Math.sqrt(pieceCount / 2)));
+  const positions = [];
+  let placed = 0;
+
+  for (let ring = 0; ring < ringCount && placed < pieceCount; ring++) {
+    const ringT = (ring + 1) / ringCount;
+    const radius = profile.minRadius + (profile.maxRadius - profile.minRadius) * ringT;
+    const remaining = pieceCount - placed;
+    const ringsLeft = ringCount - ring;
+    const inRing = ring < ringCount - 1
+      ? Math.max(1, Math.ceil(remaining / ringsLeft))
+      : remaining;
+
+    for (let j = 0; j < inRing && placed < pieceCount; j++) {
+      const h = seedHash(`${toppingId}-${placed}`);
+      const angle = (j / inRing) * Math.PI * 2
+        + ring * (Math.PI / ringCount)
+        + (base % 36) * 0.035;
+      const jitterR = ((h % 5) - 2) * 0.45;
+      let left = 50 + Math.cos(angle) * (radius + jitterR);
+      let top = 50 + Math.sin(angle) * (radius + jitterR);
+      ({ left, top } = clampToPizzaShape(left, top, margin, shape));
+
+      positions.push({
+        left,
+        top,
+        rotate: (h % 60) - 30,
+        delay: placed * 0.04,
+      });
+      placed += 1;
+    }
+  }
+  return positions;
+}
+
+export function getToppingPositions(toppingId, count, shape = 'circle') {
+  const profile = getToppingVisualProfile(toppingId);
+  const pieceCount = count ?? profile.pieceCount;
+  const visualType = getToppingVisualType(toppingId);
+  const isSpread = visualType === 'fine' || visualType === 'chicken';
+
+  if (isSpread) {
+    const margin = profile.edgeMargin ?? 18;
+    return shape === 'square'
+      ? getSpreadGridPositions(toppingId, pieceCount, margin, visualType)
+      : getSpreadSunflowerPositions(toppingId, pieceCount, margin, visualType);
+  }
+  return getRingPositions(toppingId, pieceCount, profile, shape);
 }
 
 const QUEUE_META_GROUPS = new Set(['خمیر', 'شکل', 'سایز', '_build']);

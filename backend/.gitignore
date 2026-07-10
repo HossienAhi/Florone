@@ -3,3 +3,5 @@ node_modules
 .env
 
 /generated/prisma
+prisma/test-integration.db
+prisma/test-integration.db-journal

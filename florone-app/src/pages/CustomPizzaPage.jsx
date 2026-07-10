@@ -210,7 +210,11 @@ export default function CustomPizzaPage() {
       return;
     }
 
-    const positions = getToppingPositions(topping.id, getToppingPieceCount(topping.id));
+    const positions = getToppingPositions(
+      topping.id,
+      getToppingPieceCount(topping.id),
+      shape,
+    );
     const flyProfile = getToppingVisualProfile(topping.id);
 
     const particles = positions.map((pos, idx) => {
@@ -239,7 +243,7 @@ export default function CustomPizzaPage() {
         prev.filter((p) => !particles.some((np) => np.id === p.id))
       );
     }, flyDuration);
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, shape]);
 
   const handleSizeChange = useCallback((nextSize) => {
     setSize(nextSize);

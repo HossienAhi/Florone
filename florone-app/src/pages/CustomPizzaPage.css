@@ -521,6 +521,17 @@
   pointer-events: none;
 }
 
+.cp-topping-card--ground-beef .cp-topping-card-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.cp-topping-card--curry-chicken .cp-topping-card-icon,
+.cp-topping-card--plain-chicken .cp-topping-card-icon {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
 .cp-topping-card-name {
   font-size: 0.82rem;
   font-weight: 800;

@@ -333,6 +333,23 @@
 }
 
 /* ── Toppings on pizza ── */
+.cp-toppings-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.cp-pizza-disk.is-circle .cp-toppings-layer {
+  clip-path: circle(39% at 50% 50%);
+}
+
+.cp-pizza-disk.is-square .cp-toppings-layer {
+  clip-path: inset(10% round 18%);
+}
+
 .cp-topping-piece {
   position: absolute;
   display: flex;
@@ -375,32 +392,32 @@
 }
 
 .cp-topping-piece--fine .cp-topping-piece-img {
-  width: 1.42rem;
-  height: 1.42rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .cp-topping-piece--fine .cp-topping-piece-emoji {
-  font-size: 1.2rem;
+  font-size: 2.6rem;
 }
 
 .cp-topping-piece--fine .cp-topping-piece-shadow {
-  width: 55%;
-  height: 4px;
-  opacity: 0.65;
+  width: 65%;
+  height: 7px;
+  opacity: 0.7;
 }
 
 .cp-topping-piece--chicken-spread .cp-topping-piece-img {
-  width: 1.68rem;
-  height: 1.68rem;
+  width: 2.85rem;
+  height: 2.85rem;
 }
 
 .cp-topping-piece--chicken-spread .cp-topping-piece-emoji {
-  font-size: 1.35rem;
+  font-size: 2.45rem;
 }
 
 .cp-topping-piece--chicken-spread .cp-topping-piece-shadow {
-  width: 62%;
-  height: 5px;
+  width: 68%;
+  height: 6px;
 }
 
 .cp-topping-piece--meat .cp-topping-piece-emoji,

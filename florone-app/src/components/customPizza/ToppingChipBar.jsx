@@ -56,6 +56,7 @@ export default function ToppingChipBar({
                     ref={(el) => { chipRefs.current[topping.id] = el; }}
                     className={[
                       'cp-topping-card',
+                      `cp-topping-card--${topping.id}`,
                       selected && 'is-selected',
                       unavailable && 'is-unavailable',
                       dimmed && 'is-dimmed',

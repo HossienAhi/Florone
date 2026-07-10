@@ -188,7 +188,11 @@ export default function PizzaStage({
 
           <div className="cp-toppings-layer">
             {pieceToppings.map((topping) => {
-              const positions = getToppingPositions(topping.id, getToppingPieceCount(topping.id));
+              const positions = getToppingPositions(
+                topping.id,
+                getToppingPieceCount(topping.id),
+                shapeSeed,
+              );
               const isRemoving = removingIds.has(topping.id);
               const isFine = getToppingVisualType(topping.id) === 'fine';
               const isChickenSpread = getToppingVisualType(topping.id) === 'chicken';

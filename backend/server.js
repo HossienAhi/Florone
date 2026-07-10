@@ -18,6 +18,9 @@ const {
   hasCustomPizza,
   getCachedResponse,
   storeResponse,
+  acquireIdempotencyLock,
+  waitForCachedResponse,
+  releaseIdempotencyLock,
 } = require("./lib/idempotency");
 
 function sendStructuredError(res, status, code, message, extra = {}) {
@@ -328,11 +331,32 @@ app.post("/api/orders", async (req, res) => {
     }
 
     if (idempotencyKey) {
-      const cached = await getCachedResponse(prisma, idempotencyKey);
+      let cached = await getCachedResponse(prisma, idempotencyKey);
       if (cached) {
         return res.status(cached.statusCode || 201).json(cached.body);
       }
+
+      const acquired = await acquireIdempotencyLock(prisma, idempotencyKey);
+      if (!acquired) {
+        cached = await waitForCachedResponse(prisma, idempotencyKey);
+        if (cached) {
+          return res.status(cached.statusCode || 201).json(cached.body);
+        }
+        return sendStructuredError(
+          res,
+          409,
+          "IDEMPOTENCY_IN_PROGRESS",
+          "درخواست تکراری در حال پردازش است"
+        );
+      }
     }
+
+    const failIdempotent = async (status, code, message, extra = {}) => {
+      if (idempotencyKey) {
+        await releaseIdempotencyLock(prisma, idempotencyKey);
+      }
+      return sendStructuredError(res, status, code, message, extra);
+    };
 
     const settings = await prisma.customPizzaSettings.findUnique({
       where: { id: "default" },
@@ -367,7 +391,7 @@ app.post("/api/orders", async (req, res) => {
 
       if (!validation.ok) {
         const status = validation.status || 422;
-        return sendStructuredError(res, status, validation.code, validation.error, {
+        return failIdempotent(status, validation.code, validation.error, {
           ...(validation.details || {}),
           ...(validation.serverTotal != null
             ? { serverTotal: validation.serverTotal, breakdown: validation.breakdown }
@@ -382,7 +406,7 @@ app.post("/api/orders", async (req, res) => {
 
     const clientTotal = Number(totalPrice || 0);
     if (clientTotal !== serverOrderTotal) {
-      return sendStructuredError(res, 409, "PRICE_CHANGED", "جمع فاکتور با سرور مطابقت ندارد", {
+      return failIdempotent(409, "PRICE_CHANGED", "جمع فاکتور با سرور مطابقت ندارد", {
         serverTotal: serverOrderTotal,
         clientTotal,
       });
@@ -431,6 +455,12 @@ app.post("/api/orders", async (req, res) => {
     res.status(201).json(responseBody);
   } catch (error) {
     console.error("POST /api/orders", error);
+    if (req.headers["idempotency-key"] || req.headers["Idempotency-Key"]) {
+      const key = String(
+        req.headers["idempotency-key"] || req.headers["Idempotency-Key"]
+      ).trim();
+      await releaseIdempotencyLock(prisma, key).catch(() => {});
+    }
     res.status(500).json({ error: "خطا در ثبت سفارش" });
   }
 });
@@ -748,7 +778,11 @@ app.patch("/api/admin/toppings/:id", requireCashierAuth, async (req, res) => {
   }
 });
 
-const PORT = Number(process.env.PORT) || 5000;
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server running on http://127.0.0.1:${PORT}`);
-});
+if (require.main === module) {
+  const PORT = Number(process.env.PORT) || 5000;
+  app.listen(PORT, "127.0.0.1", () => {
+    console.log(`Server running on http://127.0.0.1:${PORT}`);
+  });
+}
+
+module.exports = { app, prisma };

@@ -25,6 +25,8 @@ function hasCustomPizza(items) {
   return (items || []).some(isCustomPizzaItem);
 }
 
+const PENDING_STATUS = 102;
+
 async function getCachedResponse(prisma, key) {
   if (!key) return null;
   const row = await prisma.idempotencyRecord.findUnique({ where: { key } });
@@ -33,11 +35,47 @@ async function getCachedResponse(prisma, key) {
     await prisma.idempotencyRecord.delete({ where: { key } }).catch(() => {});
     return null;
   }
+  if (row.statusCode === PENDING_STATUS) return null;
   try {
-    return JSON.parse(row.responseBody);
+    const parsed = JSON.parse(row.responseBody);
+    if (parsed?.pending) return null;
+    return parsed;
   } catch {
     return null;
   }
+}
+
+async function acquireIdempotencyLock(prisma, key) {
+  if (!key) return false;
+  try {
+    const expiresAt = new Date(Date.now() + IDEMPOTENCY_TTL_MS);
+    await prisma.idempotencyRecord.create({
+      data: {
+        key,
+        statusCode: PENDING_STATUS,
+        responseBody: JSON.stringify({ pending: true }),
+        expiresAt,
+      },
+    });
+    return true;
+  } catch (error) {
+    if (error.code === "P2002") return false;
+    throw error;
+  }
+}
+
+async function waitForCachedResponse(prisma, key, attempts = 40, delayMs = 25) {
+  for (let i = 0; i < attempts; i++) {
+    const cached = await getCachedResponse(prisma, key);
+    if (cached) return cached;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+  return null;
+}
+
+async function releaseIdempotencyLock(prisma, key) {
+  if (!key) return;
+  await prisma.idempotencyRecord.delete({ where: { key } }).catch(() => {});
 }
 
 async function storeResponse(prisma, key, statusCode, body) {
@@ -64,5 +102,8 @@ module.exports = {
   hasCustomPizza,
   getCachedResponse,
   storeResponse,
+  acquireIdempotencyLock,
+  waitForCachedResponse,
+  releaseIdempotencyLock,
   extractBuildIds,
 };
