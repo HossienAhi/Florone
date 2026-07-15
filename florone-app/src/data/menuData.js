@@ -8,6 +8,7 @@ export const menuCategories = [
   { id: 'pasta',    name: 'پاستا',       icon: '/icons/pasta.png',    path: '/menu/pasta'    },
   { id: 'burger',   name: 'برگر',        icon: '/icons/burger.png',   path: '/menu/burger'   },
   { id: 'sandwich', name: 'ساندویچ‌ها',  icon: '/icons/sandwich.png', path: '/menu/sandwich' },
+  { id: 'salad',    name: 'سالادها',     icon: '/icons/salads.png',   path: '/menu/salad'    },
   { id: 'starter',  name: 'پیش‌غذا',     icon: '/icons/starter.png',  path: '/menu/starter'  },
   { id: 'mocktail', name: 'ماکتیل',      icon: '/icons/mocktail.png', path: '/menu/mocktail' },
   { id: 'shake',    name: 'شیک',         icon: '/icons/shake.png',    path: '/menu/shake'    },
@@ -93,6 +94,10 @@ export const menuItems = {
   },
   sandwich: {
     title: 'ساندویچ‌ها',
+    items: [],
+  },
+  salad: {
+    title: 'سالادها',
     items: [],
   },
   starter: {
