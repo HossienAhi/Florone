@@ -5,6 +5,7 @@ import { parsePrice, formatToman, toFa, getItemPricing } from '../data/price';
 /* ── one product "page" inside the gallery ── */
 function DialogSlide({ item, active, onAdd }) {
   const [qty, setQty] = useState(1);
+  const [imageZoomed, setImageZoomed] = useState(false);
 
   const groups = Array.isArray(item.optionGroups) ? item.optionGroups : [];
 
@@ -21,8 +22,24 @@ function DialogSlide({ item, active, onAdd }) {
     setSingle(s);
     setMulti({});
     setQty(1);
+    setImageZoomed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.id]);
+
+  useEffect(() => {
+    if (!active) setImageZoomed(false);
+  }, [active]);
+
+  useEffect(() => {
+    if (!imageZoomed) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      e.stopImmediatePropagation();
+      setImageZoomed(false);
+    };
+    document.addEventListener('keydown', onKey, true);
+    return () => document.removeEventListener('keydown', onKey, true);
+  }, [imageZoomed]);
 
   const pricing = getItemPricing(item);
 
@@ -77,13 +94,28 @@ function DialogSlide({ item, active, onAdd }) {
 
   return (
     <div className={`pd-slide ${active ? 'is-active' : 'is-side'}`}>
-      {/* image card */}
-      <div className="pd-media">
-        <img src={item.image} alt={item.nameFA} className="pd-media-img" />
-        <div className="pd-media-fade" />
-        {pricing.hasDiscount && (
-          <span className="pd-disc-badge">{toFa(pricing.discount)}٪ تخفیف</span>
-        )}
+      {/* single tap toggles image size; product details stay visible */}
+      <div className="pd-media-wrap">
+        <button
+          type="button"
+          className={`pd-media ${imageZoomed ? 'is-zoomed' : ''}`}
+          onClick={() => setImageZoomed((z) => !z)}
+          aria-expanded={imageZoomed}
+          aria-label={imageZoomed ? 'بازگشت به اندازه قبلی' : 'بزرگ‌نمایی تصویر'}
+        >
+          <img src={item.image} alt={item.nameFA} className="pd-media-img" />
+          <div className="pd-media-fade" />
+          {pricing.hasDiscount && (
+            <span className="pd-disc-badge">{toFa(pricing.discount)}٪ تخفیف</span>
+          )}
+        </button>
+        <span className="pd-zoom-hint" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+            <path d="M11 8v6M8 11h6" />
+          </svg>
+        </span>
       </div>
 
       {/* details panel */}

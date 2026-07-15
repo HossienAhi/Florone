@@ -7,15 +7,18 @@ export const menuCategories = [
   { id: 'pizza',    name: 'پیتزا',       icon: '/icons/pizza.png',    path: '/menu/pizza'    },
   { id: 'pasta',    name: 'پاستا',       icon: '/icons/pasta.png',    path: '/menu/pasta'    },
   { id: 'burger',   name: 'برگر',        icon: '/icons/burger.png',   path: '/menu/burger'   },
+  { id: 'sandwich', name: 'ساندویچ‌ها',  icon: '/icons/sandwich.png', path: '/menu/sandwich' },
   { id: 'starter',  name: 'پیش‌غذا',     icon: '/icons/starter.png',  path: '/menu/starter'  },
   { id: 'mocktail', name: 'ماکتیل',      icon: '/icons/mocktail.png', path: '/menu/mocktail' },
   { id: 'shake',    name: 'شیک',         icon: '/icons/shake.png',    path: '/menu/shake'    },
   { id: 'smoti',    name: 'اسموتی',      icon: '/icons/smoti.png',    path: '/menu/smoti'    },
+  { id: 'drinks',   name: 'نوشیدنی‌ها',  icon: '/icons/drinks.png',   path: '/menu/drinks'   },
   { id: 'tea',      name: 'چای و دمنوش', icon: '/icons/tea.png',      path: '/menu/tea'      },
   /* gridName: اسمی که در گرید دسته‌بندی‌های صفحه /menu نشان داده می‌شود */
   { id: 'espresso', name: 'اسپرسو بار سرد', gridName: 'نوشیدنی پایه اسپرسو', icon: '/icons/espresso.png', path: '/menu/espresso' },
   /* navOnly: فقط در نوار افقیِ صفحه‌ی دسته‌بندی نمایش داده می‌شود، نه در گرید /menu */
   { id: 'espresso-hot', name: 'اسپرسو بار گرم', icon: '/icons/espresso.png', path: '/menu/espresso-hot', navOnly: true },
+  { id: 'milk-based', name: 'پایه شیر گرم', icon: '/icons/milk-based.png', path: '/menu/milk-based' },
   { id: 'hookah',   name: 'قلیون',       icon: '/icons/hookah.png',   path: '/menu/hookah'   },
 ];
 
@@ -88,6 +91,10 @@ export const menuItems = {
       { id: 3, name: 'Carbonara',         nameFA: 'کاربونارا',       price: '۴۵۰,۰۰۰', desc: 'پنه با سس خامه، بیکن و پارمازان رنده‌شده',            image: '/src/assets/pictures/pasta.png'        },
     ],
   },
+  sandwich: {
+    title: 'ساندویچ‌ها',
+    items: [],
+  },
   starter: {
     title: 'پیش‌غذا',
     items: [
@@ -124,6 +131,10 @@ export const menuItems = {
       { id: 2, name: 'Berry Blast',       nameFA: 'انفجار توت',      price: '۱۹۵,۰۰۰', desc: 'بلوبری، تمشک، ماست یونانی و شهد آگاو',               image: '/src/assets/pictures/salad.jpg'        },
     ],
   },
+  drinks: {
+    title: 'نوشیدنی‌ها',
+    items: [],
+  },
   tea: {
     title: 'چای و دمنوش',
     items: [
@@ -146,6 +157,10 @@ export const menuItems = {
       { id: 2, name: 'Caffe Latte',       nameFA: 'کافه لاته',       price: '۱۴۵,۰۰۰', desc: 'اسپرسو با شیر بخاردیده و لایه‌ای لطیف از فوم',       image: '/src/assets/pictures/salad.jpg'        },
       { id: 3, name: 'Caffe Mocha',       nameFA: 'کافه موکا',       price: '۱۵۵,۰۰۰', desc: 'اسپرسو، شکلات بلژیکی و شیر بخاردیده',                image: '/src/assets/pictures/salad.jpg'        },
     ],
+  },
+  'milk-based': {
+    title: 'پایه شیر گرم',
+    items: [],
   },
   hookah: {
     title: 'قلیون',

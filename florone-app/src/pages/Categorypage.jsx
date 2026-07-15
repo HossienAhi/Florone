@@ -177,15 +177,16 @@ export default function CategoryPage() {
   const navRef = useRef(null);
   const isProgrammaticScroll = useRef(false);
 
-  /* categories that actually have available items, in canonical order */
+  /* categories in canonical order (empty ones stay visible so new categories appear in the nav) */
   const sections = useMemo(() => {
     const categorySections = menuCategories
       .map((cat) => {
         const data = menuItems[cat.id];
-        const items = (data?.items ?? []).filter((it) => it.available);
-        return { ...cat, title: data?.title ?? cat.name, items };
+        if (!data) return null;
+        const items = (data.items ?? []).filter((it) => it.available);
+        return { ...cat, title: data.title ?? cat.name, items };
       })
-      .filter((cat) => cat.items.length > 0);
+      .filter(Boolean);
 
     /* "به پیشنهاد فلوروان" pinned to the very top */
     if (floravanSpecials.length > 0) {
